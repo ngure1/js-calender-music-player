@@ -216,6 +216,86 @@ footer {
 	background-color: #e9ecef;
 }
 
+/* To-do list styles */
+#todo-container {
+	background-color: white;
+	border-radius: 8px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	padding: 1rem;
+	margin-bottom: 2rem;
+}
+
+#new-todo {
+	width: calc(100% - 110px);
+	padding: 0.5rem;
+	border: 1px solid #ced4da;
+	border-radius: 4px;
+	margin-right: 10px;
+}
+
+#add-todo {
+	background-color: var(--primary-color);
+	color: white;
+	border: none;
+	padding: 0.5rem 1rem;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+#add-todo:hover {
+	background-color: #2980b9;
+}
+
+#todo-list {
+	list-style-type: none;
+	padding: 0;
+	margin-top: 1rem;
+}
+
+#todo-list li {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #f8f9fa;
+	border-radius: 4px;
+	padding: 0.5rem;
+	margin-bottom: 0.5rem;
+}
+
+#todo-list li span {
+	flex-grow: 1;
+	margin-right: 1rem;
+}
+
+#todo-list li span.completed {
+	text-decoration: line-through;
+	color: #6c757d;
+}
+
+#todo-list li button {
+	background-color: var(--primary-color);
+	color: white;
+	border: none;
+	padding: 0.25rem 0.5rem;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	margin-left: 0.5rem;
+}
+
+#todo-list li button:hover {
+	background-color: #2980b9;
+}
+
+#todo-list li button.delete-todo {
+	background-color: var(--event-color);
+}
+
+#todo-list li button.delete-todo:hover {
+	background-color: #c0392b;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
 	main {
@@ -233,6 +313,26 @@ footer {
 	#event-form button {
 		width: 100%;
 		margin-right: 0;
+	}
+
+	#new-todo {
+		width: 100%;
+		margin-right: 0;
+		margin-bottom: 0.5rem;
+	}
+
+	#add-todo {
+		width: 100%;
+	}
+
+	#todo-list li {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	#todo-list li button {
+		margin-top: 0.5rem;
+		margin-left: 0;
 	}
 }
 
