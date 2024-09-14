@@ -1,98 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Web Scaffold</title>
-    <link rel="stylesheet" href="css/styles.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
-</head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#" id="home-link">Home</a></li>
-                <li><a href="#" id="calendar-link">Calendar</a></li>
-                <li><a href="#" id="todo-link">To-Do List</a></li>
-                <li><a href="#" id="music-link">Music Player</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main id="content">
-        <section id="home">
-            <h1>Welcome to the Web Scaffold</h1>
-            <p>
-                This is a basic scaffold for your web application. Use the navigation
-                to access different features.
-            </p>
-        </section>
-        <section id="calendar" style="display: none">
-            <h2>Calendar</h2>
-            <div id="calendar-container">
-                <div id="calendar-header">
-                    <button id="prev-month">&lt;</button>
-                    <h3 id="current-month-year"></h3>
-                    <button id="next-month">&gt;</button>
-                </div>
-                <div id="calendar-grid"></div>
-            </div>
-            <div id="event-form" style="display: none">
-                <h3 id="event-form-title">Add/Edit Event</h3>
-                <input type="text" id="event-title" placeholder="Event Title" required />
-                <input type="date" id="event-date" required />
-                <textarea id="event-description" placeholder="Event Description"></textarea>
-                <button id="save-event">Save Event</button>
-                <button id="delete-event" style="display: none">Delete Event</button>
-                <button id="cancel-event">Cancel</button>
-            </div>
-            <div id="event-list">
-                <h3>Upcoming Events</h3>
-                <ul id="events"></ul>
-            </div>
-        </section>
-        <section id="todo" style="display: none">
-            <h2>To-Do List</h2>
-            <div id="todo-container">
-                <input type="text" id="new-todo" placeholder="Enter a new task" />
-                <button id="add-todo">Add Task</button>
-                <ul id="todo-list"></ul>
-            </div>
-        </section>
-        <section id="music" style="display:none;">
-            <div class="player">
-                <div class="details">
-                    <div class="now-playing">PLAYING x OF y</div>
-                    <div class="track-art"></div>
-                    <div class="track-name">Track Name</div>
-                    <div class="track-artist">Track Artist</div>
-                </div>
-                <div class="buttons">
-                    <div class="prev-track" onclick="prevTrack()"><i class="fa fa-step-backward fa-2x"></i></div>
-                    <div class="playpause-track" onclick="playpauseTrack()"><i class="fa fa-play-circle fa-5x"></i></div>
-                    <div class="next-track" onclick="nextTrack()"><i class="fa fa-step-forward fa-2x"></i></div>
-                </div>
-                <div class="slider_container">
-                    <div class="current-time">00:00</div>
-                    <input type="range" min="1" max="100" value="0" class="seek_slider" onchange="seekTo()">
-                    <div class="total-duration">00:00</div>
-                </div>
-                <div class="slider_container">
-                    <i class="fa fa-volume-down"></i>
-                    <input type="range" min="1" max="100" value="99" class="volume_slider" onchange="setVolume()">
-                    <i class="fa fa-volume-up"></i>
-                </div>
-                <div class="upload-container">
-                    <input type="file" id="upload-file" accept="audio/*">
-                    <label for="upload-file" class="upload-label">
-                        <i class="fas fa-upload"></i>
-                    </label>
-                </div>
-            </div>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2024 Web Scaffold Project</p>
-    </footer>
-    <script src="js/scripts.js"></script>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Web Scaffold</title>
+		<link rel="stylesheet" href="css/styles.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+		/>
+	</head>
+	<body>
+		<header>
+			<nav>
+				<ul>
+					<li><a href="#" id="home-link">Home</a></li>
+					<li><a href="#" id="calendar-link">Calendar</a></li>
+					<li><a href="#" id="todo-link">To-Do List</a></li>
+					<li><a href="#" id="music-link">Music Player</a></li>
+				</ul>
+			</nav>
+		</header>
+		<main id="content">
+			<section id="home">
+				<h1>Welcome to MDS615 Group's Event and Music Project</h1>
+				<p>
+					Discover, plan, and enjoy events while listening to your favorite
+					tunes. All in one place!
+				</p>
+				<div class="feature-grid">
+					<div class="feature-item">
+						<i class="fas fa-calendar-alt"></i>
+						<h3>Event Planning</h3>
+						<p>Organize and track your events with ease.</p>
+					</div>
+					<div class="feature-item">
+						<i class="fas fa-music"></i>
+						<h3>Music Player</h3>
+						<p>Enjoy your favorite tracks anytime.</p>
+					</div>
+					<div class="feature-item">
+						<i class="fas fa-tasks"></i>
+						<h3>To-Do List</h3>
+						<p>Stay organized with our built-in task manager.</p>
+					</div>
+				</div>
+			</section>
+			<section id="calendar" style="display: none">
+				<h2>Calendar</h2>
+				<div id="calendar-container">
+					<div id="calendar-header">
+						<button id="prev-month">&lt;</button>
+						<h3 id="current-month-year"></h3>
+						<button id="next-month">&gt;</button>
+					</div>
+					<div id="calendar-grid"></div>
+				</div>
+				<div id="event-form" style="display: none">
+					<h3 id="event-form-title">Add/Edit Event</h3>
+					<input
+						type="text"
+						id="event-title"
+						placeholder="Event Title"
+						required
+					/>
+					<input type="date" id="event-date" required />
+					<textarea
+						id="event-description"
+						placeholder="Event Description"
+					></textarea>
+					<button id="save-event">Save Event</button>
+					<button id="delete-event" style="display: none">Delete Event</button>
+					<button id="cancel-event">Cancel</button>
+				</div>
+				<div id="event-list">
+					<h3>Upcoming Events</h3>
+					<ul id="events"></ul>
+				</div>
+			</section>
+			<section id="todo" style="display: none">
+				<h2>To-Do List</h2>
+				<div id="todo-container">
+					<input type="text" id="new-todo" placeholder="Enter a new task" />
+					<button id="add-todo">Add Task</button>
+					<ul id="todo-list"></ul>
+				</div>
+			</section>
+			<section id="music" style="display: none">
+				<div class="player">
+					<div class="details">
+						<div class="now-playing">PLAYING x OF y</div>
+						<div class="track-art"></div>
+						<div class="track-name">Track Name</div>
+						<div class="track-artist">Track Artist</div>
+					</div>
+					<div class="buttons">
+						<div class="prev-track" onclick="prevTrack()">
+							<i class="fa fa-step-backward fa-2x"></i>
+						</div>
+						<div class="playpause-track" onclick="playpauseTrack()">
+							<i class="fa fa-play-circle fa-5x"></i>
+						</div>
+						<div class="next-track" onclick="nextTrack()">
+							<i class="fa fa-step-forward fa-2x"></i>
+						</div>
+					</div>
+					<div class="slider_container">
+						<div class="current-time">00:00</div>
+						<input
+							type="range"
+							min="1"
+							max="100"
+							value="0"
+							class="seek_slider"
+							onchange="seekTo()"
+						/>
+						<div class="total-duration">00:00</div>
+					</div>
+					<div class="slider_container">
+						<i class="fa fa-volume-down"></i>
+						<input
+							type="range"
+							min="1"
+							max="100"
+							value="99"
+							class="volume_slider"
+							onchange="setVolume()"
+						/>
+						<i class="fa fa-volume-up"></i>
+					</div>
+					<div class="upload-container">
+						<input type="file" id="upload-file" accept="audio/*" />
+						<label for="upload-file" class="upload-label">
+							<i class="fas fa-upload"></i>
+						</label>
+					</div>
+				</div>
+			</section>
+		</main>
+		<footer>
+			<p>&copy; 2024 Web Scaffold Project</p>
+		</footer>
+		<script src="js/scripts.js"></script>
+	</body>
 </html>
