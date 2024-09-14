@@ -2,9 +2,11 @@ document.addEventListener("DOMContentLoaded", function () {
 	const homeLink = document.getElementById("home-link");
 	const calendarLink = document.getElementById("calendar-link");
 	const musicLink = document.getElementById("music-link");
+	const todoLink = document.getElementById("todo-link");
 	const homeSection = document.getElementById("home");
 	const calendarSection = document.getElementById("calendar");
 	const musicSection = document.getElementById("music");
+	const todoSection = document.getElementById("todo");
 
 	homeLink.addEventListener("click", showSection.bind(null, homeSection));
 	calendarLink.addEventListener(
@@ -12,13 +14,15 @@ document.addEventListener("DOMContentLoaded", function () {
 		showSection.bind(null, calendarSection)
 	);
 	musicLink.addEventListener("click", showSection.bind(null, musicSection));
+	todoLink.addEventListener("click", showSection.bind(null, todoSection));
 
 	function showSection(section) {
-		[homeSection, calendarSection, musicSection].forEach(
+		[homeSection, calendarSection, musicSection, todoSection].forEach(
 			(s) => (s.style.display = "none")
 		);
 		section.style.display = "block";
 		if (section === calendarSection) renderCalendar();
+		if (section === todoSection) renderTodoList();
 	}
 
 	// Calendar functionality
@@ -106,8 +110,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	function saveEvent() {
 		const date = eventDate.value;
-		const title = eventTitle.value;
-		const description = eventDescription.value;
+		const title = eventTitle.value.trim();
+		const description = eventDescription.value.trim();
+
+		if (title === "") {
+			alert("Event title cannot be empty. Please enter a title.");
+			return;
+		}
 
 		if (!events[date]) {
 			events[date] = [];
@@ -171,4 +180,63 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 
 	renderCalendar();
+
+	// To-do list functionality
+	const todoList = document.getElementById("todo-list");
+	const newTodoInput = document.getElementById("new-todo");
+	const addTodoBtn = document.getElementById("add-todo");
+
+	let todos = JSON.parse(localStorage.getItem("todos")) || [];
+
+	function renderTodoList() {
+		todoList.innerHTML = "";
+		todos.forEach((todo, index) => {
+			const li = document.createElement("li");
+			li.innerHTML = `
+                <span class="${todo.completed ? "completed" : ""}">${
+				todo.text
+			}</span>
+                <button class="toggle-todo" data-index="${index}">${
+				todo.completed ? "Undo" : "Complete"
+			}</button>
+                <button class="delete-todo" data-index="${index}">Delete</button>
+            `;
+			todoList.appendChild(li);
+		});
+	}
+
+	function addTodo() {
+		const todoText = newTodoInput.value.trim();
+		if (todoText !== "") {
+			todos.push({ text: todoText, completed: false });
+			localStorage.setItem("todos", JSON.stringify(todos));
+			newTodoInput.value = "";
+			renderTodoList();
+		}
+	}
+
+	function toggleTodo(index) {
+		todos[index].completed = !todos[index].completed;
+		localStorage.setItem("todos", JSON.stringify(todos));
+		renderTodoList();
+	}
+
+	function deleteTodo(index) {
+		todos.splice(index, 1);
+		localStorage.setItem("todos", JSON.stringify(todos));
+		renderTodoList();
+	}
+
+	addTodoBtn.addEventListener("click", addTodo);
+
+	todoList.addEventListener("click", (e) => {
+		if (e.target.classList.contains("toggle-todo")) {
+			toggleTodo(e.target.dataset.index);
+		} else if (e.target.classList.contains("delete-todo")) {
+			deleteTodo(e.target.dataset.index);
+		}
+	});
+
+	renderTodoList();
+
 });
