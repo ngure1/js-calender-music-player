@@ -125,10 +125,16 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (currentEditingEvent) {
 			// Edit existing event
 			const index = events[date].indexOf(currentEditingEvent);
-			events[date][index] = { title, description };
+			events[date][index] = {
+				title,
+				description
+			};
 		} else {
 			// Add new event
-			events[date].push({ title, description });
+			events[date].push({
+				title,
+				description
+			});
 		}
 
 		localStorage.setItem("events", JSON.stringify(events));
@@ -180,63 +186,218 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 
 	renderCalendar();
+  // To-do list functionality
+    const todoList = document.getElementById("todo-list");
+    const newTodoInput = document.getElementById("new-todo");
+    const addTodoBtn = document.getElementById("add-todo");
 
-	// To-do list functionality
-	const todoList = document.getElementById("todo-list");
-	const newTodoInput = document.getElementById("new-todo");
-	const addTodoBtn = document.getElementById("add-todo");
+    let todos = JSON.parse(localStorage.getItem("todos")) || [];
 
-	let todos = JSON.parse(localStorage.getItem("todos")) || [];
-
-	function renderTodoList() {
-		todoList.innerHTML = "";
-		todos.forEach((todo, index) => {
-			const li = document.createElement("li");
-			li.innerHTML = `
-                <span class="${todo.completed ? "completed" : ""}">${
-				todo.text
-			}</span>
+    function renderTodoList() {
+        todoList.innerHTML = "";
+        todos.forEach((todo, index) => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+                <span class="${todo.completed ? "completed" : ""}">${todo.text}</span>
                 <button class="toggle-todo" data-index="${index}">${
-				todo.completed ? "Undo" : "Complete"
-			}</button>
+                todo.completed ? "Undo" : "Complete"
+            }</button>
                 <button class="delete-todo" data-index="${index}">Delete</button>
             `;
-			todoList.appendChild(li);
-		});
-	}
+            todoList.appendChild(li);
+        });
+    }
 
-	function addTodo() {
-		const todoText = newTodoInput.value.trim();
-		if (todoText !== "") {
-			todos.push({ text: todoText, completed: false });
-			localStorage.setItem("todos", JSON.stringify(todos));
-			newTodoInput.value = "";
-			renderTodoList();
-		}
-	}
+    function addTodo() {
+        const todoText = newTodoInput.value.trim();
+        if (todoText !== "") {
+            todos.push({ text: todoText, completed: false });
+            localStorage.setItem("todos", JSON.stringify(todos));
+            newTodoInput.value = "";
+            renderTodoList();
+        }
+    }
 
-	function toggleTodo(index) {
-		todos[index].completed = !todos[index].completed;
-		localStorage.setItem("todos", JSON.stringify(todos));
-		renderTodoList();
-	}
+    function toggleTodo(index) {
+        todos[index].completed = !todos[index].completed;
+        localStorage.setItem("todos", JSON.stringify(todos));
+        renderTodoList();
+    }
 
-	function deleteTodo(index) {
-		todos.splice(index, 1);
-		localStorage.setItem("todos", JSON.stringify(todos));
-		renderTodoList();
-	}
+    function deleteTodo(index) {
+        todos.splice(index, 1);
+        localStorage.setItem("todos", JSON.stringify(todos));
+        renderTodoList();
+    }
 
-	addTodoBtn.addEventListener("click", addTodo);
+    addTodoBtn.addEventListener("click", addTodo);
 
-	todoList.addEventListener("click", (e) => {
-		if (e.target.classList.contains("toggle-todo")) {
-			toggleTodo(e.target.dataset.index);
-		} else if (e.target.classList.contains("delete-todo")) {
-			deleteTodo(e.target.dataset.index);
-		}
-	});
+    todoList.addEventListener("click", (e) => {
+        if (e.target.classList.contains("toggle-todo")) {
+            toggleTodo(e.target.dataset.index);
+        } else if (e.target.classList.contains("delete-todo")) {
+            deleteTodo(e.target.dataset.index);
+        }
+    });
 
-	renderTodoList();
+    renderTodoList();
 
+    // Music player functionality
+    let now_playing = document.querySelector(".now-playing");
+    let track_art = document.querySelector(".track-art");
+    let track_name = document.querySelector(".track-name");
+    let track_artist = document.querySelector(".track-artist");
+
+    let playpause_btn = document.querySelector(".playpause-track");
+    let next_btn = document.querySelector(".next-track");
+    let prev_btn = document.querySelector(".prev-track");
+
+    let seek_slider = document.querySelector(".seek_slider");
+    let volume_slider = document.querySelector(".volume_slider");
+    let curr_time = document.querySelector(".current-time");
+    let total_duration = document.querySelector(".total-duration");
+
+    let track_index = 0;
+    let isPlaying = false;
+    let updateTimer;
+
+    // Create new audio element
+    let curr_track = document.createElement('audio');
+
+    // Define the tracks that have to be played
+    let track_list = [
+        {
+            name: "Roses",
+            artist: "Saint Jhn",
+            image: "/resources/img/saint.jpg",
+            path: "/resources/music/SAINt JHN - Roses (Imanbek Remix) (Official Music Video).mp3"
+        },
+        {
+            name: "Human Nature",
+            artist: "Michael Jackson",
+            image: "/resources/img/michael.jpg",
+            path: "/resources/music/Michael Jackson - Human Nature (Official Audio).mp3"
+        },
+        {
+            name: "Life's A Mess",
+            artist: "Juice World",
+            image: "/resources/img/juice.jpg",
+            path: "/resources/music/Juice WRLD ft. Halsey - Life's A Mess (Official Visualizer).mp3",
+        },
+    ];
+
+    function loadTrack(track_index) {
+        clearInterval(updateTimer);
+        resetValues();
+        curr_track.src = track_list[track_index].path;
+        curr_track.load();
+
+        track_art.style.backgroundImage = "url(" + (track_list[track_index].image || "https://images.pexels.com/photos/3100835/pexels-photo-3100835.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250&w=250") + ")";
+        track_name.textContent = track_list[track_index].name;
+        track_artist.textContent = track_list[track_index].artist;
+        now_playing.textContent = "PLAYING " + (track_index + 1) + " OF " + track_list.length;
+
+        updateTimer = setInterval(seekUpdate, 1000);
+        curr_track.addEventListener("ended", nextTrack);
+    }
+
+    function resetValues() {
+        curr_time.textContent = "00:00";
+        total_duration.textContent = "00:00";
+        seek_slider.value = 0;
+    }
+
+    // Load the first track in the tracklist
+    loadTrack(track_index);
+
+    function playpauseTrack() {
+        if (!isPlaying) playTrack();
+        else pauseTrack();
+    }
+
+    function playTrack() {
+        curr_track.play();
+        isPlaying = true;
+        playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
+    }
+
+    function pauseTrack() {
+        curr_track.pause();
+        isPlaying = false;
+        playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
+    }
+
+    function nextTrack() {
+        if (track_index < track_list.length - 1)
+            track_index += 1;
+        else track_index = 0;
+        loadTrack(track_index);
+        playTrack();
+    }
+
+    function prevTrack() {
+        if (track_index > 0)
+            track_index -= 1;
+        else track_index = track_list.length - 1;
+        loadTrack(track_index);
+        playTrack();
+    }
+
+    function seekTo() {
+        let seekto = curr_track.duration * (seek_slider.value / 100);
+        curr_track.currentTime = seekto;
+    }
+
+    function setVolume() {
+        curr_track.volume = volume_slider.value / 100;
+    }
+
+    function seekUpdate() {
+        let seekPosition = 0;
+
+        if (!isNaN(curr_track.duration)) {
+            seekPosition = curr_track.currentTime * (100 / curr_track.duration);
+
+            seek_slider.value = seekPosition;
+
+            let currentMinutes = Math.floor(curr_track.currentTime / 60);
+            let currentSeconds = Math.floor(curr_track.currentTime - currentMinutes * 60);
+            let durationMinutes = Math.floor(curr_track.duration / 60);
+            let durationSeconds = Math.floor(curr_track.duration - durationMinutes * 60);
+
+            if (currentSeconds < 10) { currentSeconds = "0" + currentSeconds; }
+            if (durationSeconds < 10) { durationSeconds = "0" + durationSeconds; }
+            if (currentMinutes < 10) { currentMinutes = "0" + currentMinutes; }
+            if (durationMinutes < 10) { durationMinutes = "0" + durationMinutes; }
+
+            curr_time.textContent = currentMinutes + ":" + currentSeconds;
+            total_duration.textContent = durationMinutes + ":" + durationSeconds;
+        }
+    }
+
+    // New function to handle file upload
+    function handleFileUpload(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const fileName = file.name.replace(/\.[^/.]+$/, "");
+            const newTrack = {
+                name: fileName,
+                artist: "Unknown Artist",
+                image: "https://images.pexels.com/photos/3100835/pexels-photo-3100835.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250&w=250",
+                path: URL.createObjectURL(file)
+            };
+            track_list.push(newTrack);
+            track_index = track_list.length - 1;
+            loadTrack(track_index);
+            playTrack();
+        }
+    }
+
+    // Add event listeners for music player
+    playpause_btn.addEventListener("click", playpauseTrack);
+    next_btn.addEventListener("click", nextTrack);
+    prev_btn.addEventListener("click", prevTrack);
+    seek_slider.addEventListener("input", seekTo);
+    volume_slider.addEventListener("input", setVolume);
+    document.getElementById("upload-file").addEventListener("change", handleFileUpload);
 });
