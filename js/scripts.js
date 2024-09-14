@@ -200,22 +200,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	// Define the tracks that have to be played
 	let track_list = [{
-			name: "Night Owl",
-			artist: "Broke For Free",
-			image: "https://images.pexels.com/photos/2264753/pexels-photo-2264753.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250&w=250",
-			path: "https://www.bensound.com/royalty-free-music/track/dreams-chill-out.mp3"
+			name: "Roses",
+			artist: "Saint Jhn",
+			image: "/resources/img/saint.jpg",
+			path: "/resources/music/SAINt JHN - Roses (Imanbek Remix) (Official Music Video).mp3"
 		},
 		{
-			name: "Enthusiast",
-			artist: "Tours",
-			image: "https://images.pexels.com/photos/3100835/pexels-photo-3100835.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250&w=250",
-			path: "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Tours/Enthusiast/Tours_-_01_-_Enthusiast.mp3"
+			name: "Human Nature",
+			artist: "Michael Jackson",
+			image: "/resources/img/michael.jpg",
+			path: "/resources/music/Michael Jackson - Human Nature (Official Audio).mp3"
 		},
 		{
-			name: "Shipping Lanes",
-			artist: "Chad Crouch",
-			image: "https://images.pexels.com/photos/1717969/pexels-photo-1717969.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250&w=250",
-			path: "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/ccCommunity/Chad_Crouch/Arps/Chad_Crouch_-_Shipping_Lanes.mp3",
+			name: "Life's A Mess",
+			artist: "Juice World",
+			image: "/resources/img/juice.jpg",
+			path: "/resources/music/Juice WRLD ft. Halsey - Life's A Mess (Official Visualizer).mp3",
 		},
 	];
 
